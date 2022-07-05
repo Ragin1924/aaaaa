@@ -101,13 +101,13 @@ callbacks: |
       result:value 0 =
   }
 cargoAcceptance:
-- IRON
 - MNO2
-- QLME
 - O2__
+- IRON
+- QLME
 cargoProduction:
-- STCB
 - STAL
+- STCB
 - SLAG
 colour: 49
 fundCostMultiplier: 160
