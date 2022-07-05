@@ -1,0 +1,77 @@
+available: false
+callbacks: ''
+cargoAcceptance: []
+cargoProduction: []
+colour: 1
+fundCostMultiplier: 100
+id: 21
+layout:
+- - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+  - - -1
+    - 2
+    - -1
+    - -1
+    - -1
+  - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+  - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+  - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+name: 'New industry #21'
+placement: anywhere
+probabilityInGame: 5
+probabilityMapGen: 3
+prospectChance: 75
+tiles:
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/new-industry-21/2.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/new-industry-21/1.png
+      left: -31
+      top: 0
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3924
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/new-industry-21/3.png
+      left: -31
+      top: 0
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/new-industry-21/5.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/new-industry-21/4.png
+      left: -31
+      top: 0
+type: primary
