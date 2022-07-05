@@ -1,0 +1,17 @@
+abbreviation: CN
+available: true
+classes: 32
+colour: 43
+id: 13
+label: SOAP
+longName: cleaning agents
+name: Cleaning Agents
+penaltyLength: 235
+penaltyLowerBound: 20
+price: 4975
+sprite:
+  filename: cargoes/cleaning-agents.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 16

@@ -1,0 +1,17 @@
+abbreviation: SU
+available: true
+classes: 576
+colour: 65
+id: 44
+label: SULP
+longName: sulphur
+name: Sulphur
+penaltyLength: 225
+penaltyLowerBound: 30
+price: 4317
+sprite:
+  filename: cargoes/sulphur.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

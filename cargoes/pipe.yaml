@@ -1,0 +1,17 @@
+abbreviation: PP
+available: true
+classes: 1056
+colour: 210
+id: 31
+label: PIPE
+longName: pipe
+name: Pipe
+penaltyLength: 42
+penaltyLowerBound: 30
+price: 5921
+sprite:
+  filename: cargoes/pipe.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

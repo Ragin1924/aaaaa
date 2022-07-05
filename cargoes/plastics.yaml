@@ -1,0 +1,17 @@
+abbreviation: PL
+available: true
+classes: 528
+colour: 169
+id: 32
+label: PLAS
+longName: plastics
+name: Plastics
+penaltyLength: 36
+penaltyLowerBound: 12
+price: 5798
+sprite:
+  filename: cargoes/plastics.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 16

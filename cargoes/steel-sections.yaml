@@ -1,0 +1,17 @@
+abbreviation: SE
+available: true
+classes: 32
+colour: 209
+id: 41
+label: STSE
+longName: steel sections
+name: Steel Sections
+penaltyLength: 241
+penaltyLowerBound: 14
+price: 5839
+sprite:
+  filename: cargoes/steel-sections.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

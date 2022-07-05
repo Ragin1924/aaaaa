@@ -1,0 +1,17 @@
+abbreviation: ES
+available: true
+classes: 32
+colour: 143
+id: 18
+label: ENSP
+longName: engineering supplies
+name: Engineering Supplies
+penaltyLength: 32
+penaltyLowerBound: 2
+price: 7072
+sprite:
+  filename: cargoes/engineering-supplies.png
+  left: 0
+  top: 0
+unitName: Crates
+weight: 10

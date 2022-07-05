@@ -1,0 +1,17 @@
+abbreviation: SO
+available: true
+classes: 528
+colour: 121
+id: 39
+label: SASH
+longName: soda ash
+name: Soda Ash
+penaltyLength: 241
+penaltyLowerBound: 14
+price: 3947
+sprite:
+  filename: cargoes/soda-ash.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

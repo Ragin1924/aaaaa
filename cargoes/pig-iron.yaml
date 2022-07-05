@@ -1,0 +1,17 @@
+abbreviation: PI
+available: true
+classes: 32
+colour: 155
+id: 30
+label: IRON
+longName: pig iron
+name: Pig Iron
+penaltyLength: 64
+penaltyLowerBound: 8
+price: 4893
+sprite:
+  filename: cargoes/pig-iron.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

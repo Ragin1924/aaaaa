@@ -1,0 +1,298 @@
+available: true
+callbacks: |
+  const type{
+      accept_cargo_types cargodict
+      prod_cargo_types cargodict
+  }
+
+  local type{
+      current_production_ratio integer
+      total_cargo_produced_this_cycle integer
+      total_cargo_to_distribute_this_cycle integer
+
+      cargo iterator
+  }
+
+  industry:storage type{
+      supplied_cycles_remaining_cargo cargodict
+
+      total_produced_cargo_available integer
+  }
+
+  accept_cargo_types ctt:STCB [] 4 =
+  accept_cargo_types ctt:ACID [] 2 =
+  accept_cargo_types ctt:SOAP [] 2 =
+  prod_cargo_types ctt:STSE [] 4 =
+  prod_cargo_types ctt:STWR [] 3 =
+  prod_cargo_types ctt:ENSP [] 1 =
+
+
+  /*
+   The following is a replication of what FIRS is doing for a secondary industry.
+   See: https://github.com/andythenorth/firs/blob/4.4.0/src/templates/produce_secondary.pynml
+  */
+
+  cb:production_cargo_arrival def{
+      cargo accept_cargo_types loop{
+          supplied_cycles_remaining_cargo cargo []
+              28
+              supplied_cycles_remaining_cargo cargo []
+          industry:cargo_incoming_waiting cargo [] 0 >
+          =
+
+          current_production_ratio
+              current_production_ratio
+                  accept_cargo_types cargo []
+                  0
+              supplied_cycles_remaining_cargo cargo [] 0 >
+              +
+          =
+
+          total_cargo_produced_this_cycle
+              total_cargo_produced_this_cycle
+              industry:cargo_incoming_waiting cargo [] current_production_ratio * 8 /
+              +
+          =
+      }
+
+      /*
+       When low cargo amounts are delivered, it's possible that final output
+       cargo amounts < 1, which means no cargo is distributed. Prevent that by
+       stockpiling produced cargo on each production cycle until there is enough
+       to distribute. The case is triggered by low amounts being moved to the
+       produce cycle as a vehicle gradually unloads, and was noticeable with
+       Road Hog trams.
+      */
+      total_produced_cargo_available total_produced_cargo_available total_cargo_produced_this_cycle + =
+
+      /*
+       Then check min. distributed by dividing over 8, to get the amount divided
+       by max possible output cargos. 8 is the pathological case, this could be
+       made more accurate by checking the lowest output ratio in current economy.
+       For accuracy, this could also store remainders using mod(8) or so, but eh, TMWFTLB?
+      */
+      total_cargo_to_distribute_this_cycle
+          total_produced_cargo_available
+          0
+          total_produced_cargo_available 8 >=
+      =
+      total_produced_cargo_available total_produced_cargo_available total_cargo_to_distribute_this_cycle - =
+
+      cargo accept_cargo_types loop{
+          result:inputs cargo [] industry:cargo_incoming_waiting cargo [] =
+      }
+      cargo prod_cargo_types loop{
+          result:outputs cargo [] total_cargo_to_distribute_this_cycle prod_cargo_types cargo [] * 8 / =
+      }
+  }
+
+  cb:production_every_256_ticks def{
+      cargo accept_cargo_types loop{
+          supplied_cycles_remaining_cargo cargo [] supplied_cycles_remaining_cargo cargo [] 1 - 0 max =
+      }
+  }
+
+  cb:production_change_monthly def{
+      result:value 0 =
+  }
+
+  cb:production_change_random def{
+      result:value 0 =
+  }
+cargoAcceptance:
+- ACID
+- STCB
+- SOAP
+cargoProduction:
+- ENSP
+- STSE
+- STWR
+colour: 43
+fundCostMultiplier: 120
+id: 30
+layout:
+- - - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 6
+  - - 0
+    - 0
+    - 0
+    - 0
+    - 5
+    - 4
+  - - 1
+    - 1
+    - 8
+    - 7
+    - 7
+    - 7
+  - - 1
+    - 1
+    - 9
+    - 9
+    - 8
+    - 8
+- - - 2
+    - 2
+    - 3
+    - 3
+  - - 2
+    - 2
+    - 3
+    - 3
+  - - 2
+    - 2
+    - 7
+    - 9
+  - - 2
+    - 2
+    - 8
+    - 9
+  - - 2
+    - 5
+    - 8
+    - 7
+  - - 6
+    - 4
+    - 8
+    - 7
+name: Wire and Section Mill
+placement: anywhere
+probabilityInGame: 0
+probabilityMapGen: 5
+prospectChance: 0
+tiles:
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/2.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/1.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/4.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/3.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/6.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/5.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/8.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/7.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/10.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/9.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/12.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/11.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/14.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/13.png
+      left: -31
+      top: -33
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/16.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/15.png
+      left: -31
+      top: 0
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/18.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/17.png
+      left: -31
+      top: 0
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/20.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wire-and-section-mill/19.png
+      left: -31
+      top: -21
+type: secondary

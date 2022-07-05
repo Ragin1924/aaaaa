@@ -1,0 +1,17 @@
+abbreviation: CK
+available: true
+classes: 16
+colour: 160
+id: 16
+label: COKE
+longName: coke
+name: Coke
+penaltyLength: 225
+penaltyLowerBound: 30
+price: 3988
+sprite:
+  filename: cargoes/coke.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

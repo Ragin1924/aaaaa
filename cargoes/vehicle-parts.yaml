@@ -1,0 +1,17 @@
+abbreviation: VP
+available: true
+classes: 32
+colour: 207
+id: 48
+label: VPTS
+longName: vehicle parts
+name: Vehicle Parts
+penaltyLength: 248
+penaltyLowerBound: 7
+price: 6168
+sprite:
+  filename: cargoes/vehicle-parts.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

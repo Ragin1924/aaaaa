@@ -1,0 +1,17 @@
+abbreviation: SA
+available: true
+classes: 16
+colour: 85
+id: 36
+label: SAND
+longName: sand
+name: Sand
+penaltyLength: 191
+penaltyLowerBound: 64
+price: 3824
+sprite:
+  filename: cargoes/sand.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

@@ -1,0 +1,17 @@
+abbreviation: EP
+available: true
+classes: 32
+colour: 127
+id: 17
+label: POWR
+longName: electrical parts
+name: Electrical Parts
+penaltyLength: 248
+penaltyLowerBound: 7
+price: 6085
+sprite:
+  filename: cargoes/electrical-parts.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

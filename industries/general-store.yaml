@@ -1,0 +1,71 @@
+available: true
+callbacks: |
+  const type{
+      accept_cargo_types cargodict
+  }
+
+  local type{
+      cargo iterator
+  }
+
+  accept_cargo_types ctt:FOOD [] 1 =
+
+
+  /*
+   The following is a replication of what FIRS is doing for a tertiary industry.
+   See: https://github.com/andythenorth/firs/blob/4.4.0/src/templates/produce_tertiary.pynml
+  */
+
+  /* On arrival of supplies, clear the stockpile. */
+  cb:production_cargo_arrival def{
+      cargo accept_cargo_types loop{
+          result:inputs cargo [] industry:cargo_incoming_waiting cargo [] =
+      }
+  }
+
+  /* On 256 ticks, do nothing. */
+  cb:production_every_256_ticks def{
+      /* TODO -- Bodies currently cannot be empty, so just do some simple math here. */
+      1 1 +
+  }
+
+  cb:production_initial def{
+      /* Initial production level. Can be changed with cheats. */
+      result:value 16 =
+  }
+
+  cb:production_change_monthly def{
+      result:value 0 =
+  }
+
+  cb:production_change_random def{
+      result:value 0 =
+  }
+cargoAcceptance:
+- FOOD
+cargoProduction: []
+colour: 168
+fundCostMultiplier: 15
+id: 15
+layout:
+- - - 0
+name: General Store
+placement: in-town
+probabilityInGame: 12
+probabilityMapGen: 24
+prospectChance: 75
+tiles:
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/general-store/2.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/general-store/1.png
+      left: -31
+      top: -18
+type: tertiary

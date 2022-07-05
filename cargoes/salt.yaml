@@ -1,0 +1,17 @@
+abbreviation: NA
+available: true
+classes: 16
+colour: 69
+id: 35
+label: SALT
+longName: salt
+name: Salt
+penaltyLength: 219
+penaltyLowerBound: 36
+price: 3865
+sprite:
+  filename: cargoes/salt.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

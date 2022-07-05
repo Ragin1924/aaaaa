@@ -1,0 +1,17 @@
+abbreviation: RB
+available: true
+classes: 64
+colour: 26
+id: 34
+label: RUBR
+longName: rubber
+name: Rubber
+penaltyLength: 36
+penaltyLowerBound: 10
+price: 4523
+sprite:
+  filename: cargoes/rubber.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 16

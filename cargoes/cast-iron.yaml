@@ -1,0 +1,17 @@
+abbreviation: CI
+available: true
+classes: 32
+colour: 141
+id: 9
+label: CSTI
+longName: cast iron
+name: Cast Iron
+penaltyLength: 240
+penaltyLowerBound: 15
+price: 4934
+sprite:
+  filename: cargoes/cast-iron.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

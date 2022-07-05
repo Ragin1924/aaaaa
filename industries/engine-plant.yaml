@@ -1,0 +1,238 @@
+available: true
+callbacks: |
+  const type{
+      accept_cargo_types cargodict
+      prod_cargo_types cargodict
+  }
+
+  local type{
+      current_production_ratio integer
+      total_cargo_produced_this_cycle integer
+      total_cargo_to_distribute_this_cycle integer
+
+      cargo iterator
+  }
+
+  industry:storage type{
+      supplied_cycles_remaining_cargo cargodict
+
+      total_produced_cargo_available integer
+  }
+
+  accept_cargo_types ctt:CSTI [] 4 =
+  accept_cargo_types ctt:ALUM [] 2 =
+  accept_cargo_types ctt:SAND [] 2 =
+  prod_cargo_types ctt:VENG [] 6 =
+
+
+  /*
+   The following is a replication of what FIRS is doing for a secondary industry.
+   See: https://github.com/andythenorth/firs/blob/4.4.0/src/templates/produce_secondary.pynml
+  */
+
+  cb:production_cargo_arrival def{
+      cargo accept_cargo_types loop{
+          supplied_cycles_remaining_cargo cargo []
+              28
+              supplied_cycles_remaining_cargo cargo []
+          industry:cargo_incoming_waiting cargo [] 0 >
+          =
+
+          current_production_ratio
+              current_production_ratio
+                  accept_cargo_types cargo []
+                  0
+              supplied_cycles_remaining_cargo cargo [] 0 >
+              +
+          =
+
+          total_cargo_produced_this_cycle
+              total_cargo_produced_this_cycle
+              industry:cargo_incoming_waiting cargo [] current_production_ratio * 8 /
+              +
+          =
+      }
+
+      /*
+       When low cargo amounts are delivered, it's possible that final output
+       cargo amounts < 1, which means no cargo is distributed. Prevent that by
+       stockpiling produced cargo on each production cycle until there is enough
+       to distribute. The case is triggered by low amounts being moved to the
+       produce cycle as a vehicle gradually unloads, and was noticeable with
+       Road Hog trams.
+      */
+      total_produced_cargo_available total_produced_cargo_available total_cargo_produced_this_cycle + =
+
+      /*
+       Then check min. distributed by dividing over 8, to get the amount divided
+       by max possible output cargos. 8 is the pathological case, this could be
+       made more accurate by checking the lowest output ratio in current economy.
+       For accuracy, this could also store remainders using mod(8) or so, but eh, TMWFTLB?
+      */
+      total_cargo_to_distribute_this_cycle
+          total_produced_cargo_available
+          0
+          total_produced_cargo_available 8 >=
+      =
+      total_produced_cargo_available total_produced_cargo_available total_cargo_to_distribute_this_cycle - =
+
+      cargo accept_cargo_types loop{
+          result:inputs cargo [] industry:cargo_incoming_waiting cargo [] =
+      }
+      cargo prod_cargo_types loop{
+          result:outputs cargo [] total_cargo_to_distribute_this_cycle prod_cargo_types cargo [] * 8 / =
+      }
+  }
+
+  cb:production_every_256_ticks def{
+      cargo accept_cargo_types loop{
+          supplied_cycles_remaining_cargo cargo [] supplied_cycles_remaining_cargo cargo [] 1 - 0 max =
+      }
+  }
+
+  cb:production_change_monthly def{
+      result:value 0 =
+  }
+
+  cb:production_change_random def{
+      result:value 0 =
+  }
+cargoAcceptance:
+- ALUM
+- CSTI
+- SAND
+cargoProduction:
+- VENG
+colour: 45
+fundCostMultiplier: 120
+id: 13
+layout:
+- - - 2
+    - 2
+    - 2
+  - - 2
+    - 2
+    - 0
+  - - 4
+    - 4
+    - 1
+  - - 3
+    - 3
+    - 6
+  - - 4
+    - 5
+    - 6
+- - - -1
+    - 0
+    - 3
+    - 3
+  - - -1
+    - 1
+    - 6
+    - 4
+  - - 2
+    - 2
+    - 5
+    - 3
+  - - 2
+    - 2
+    - 5
+    - 2
+name: Engine Plant
+placement: anywhere
+probabilityInGame: 0
+probabilityMapGen: 5
+prospectChance: 0
+tiles:
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/2.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/1.png
+      left: -31
+      top: -39
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/4.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/3.png
+      left: -31
+      top: -39
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/6.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/5.png
+      left: -31
+      top: -39
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/8.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/7.png
+      left: -31
+      top: -20
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/10.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/9.png
+      left: -31
+      top: -20
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/12.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/11.png
+      left: -31
+      top: 0
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/14.png
+      left: -31
+      top: 0
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/engine-plant/13.png
+      left: -31
+      top: 0
+type: secondary

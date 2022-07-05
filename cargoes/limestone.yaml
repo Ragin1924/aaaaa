@@ -1,0 +1,17 @@
+abbreviation: LS
+available: true
+classes: 16
+colour: 172
+id: 24
+label: LIME
+longName: limestone
+name: Limestone
+penaltyLength: 217
+penaltyLowerBound: 38
+price: 3783
+sprite:
+  filename: cargoes/limestone.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

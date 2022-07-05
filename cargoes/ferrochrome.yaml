@@ -1,0 +1,17 @@
+abbreviation: FC
+available: true
+classes: 16
+colour: 146
+id: 21
+label: FECR
+longName: ferrochrome
+name: Ferrochrome
+penaltyLength: 215
+penaltyLowerBound: 40
+price: 4358
+sprite:
+  filename: cargoes/ferrochrome.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

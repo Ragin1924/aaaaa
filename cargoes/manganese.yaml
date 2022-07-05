@@ -1,0 +1,17 @@
+abbreviation: MN
+available: true
+classes: 16
+colour: 181
+id: 27
+label: MNO2
+longName: manganese
+name: Manganese
+penaltyLength: 225
+penaltyLowerBound: 30
+price: 3906
+sprite:
+  filename: cargoes/manganese.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

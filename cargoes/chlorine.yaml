@@ -1,0 +1,17 @@
+abbreviation: CH
+available: true
+classes: 320
+colour: 55
+id: 11
+label: CHLO
+longName: chlorine
+name: Chlorine
+penaltyLength: 40
+penaltyLowerBound: 20
+price: 4728
+sprite:
+  filename: cargoes/chlorine.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 32

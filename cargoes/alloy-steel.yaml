@@ -1,0 +1,17 @@
+abbreviation: AS
+available: true
+classes: 32
+colour: 61
+id: 3
+label: STAL
+longName: alloy steel
+name: Alloy Steel
+penaltyLength: 241
+penaltyLowerBound: 14
+price: 5263
+sprite:
+  filename: cargoes/alloy-steel.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

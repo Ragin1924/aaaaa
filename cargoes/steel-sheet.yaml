@@ -1,0 +1,17 @@
+abbreviation: SH
+available: true
+classes: 32
+colour: 63
+id: 42
+label: STSH
+longName: steel sheet
+name: Steel Sheet
+penaltyLength: 241
+penaltyLowerBound: 14
+price: 5715
+sprite:
+  filename: cargoes/steel-sheet.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

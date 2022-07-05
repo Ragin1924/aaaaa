@@ -1,0 +1,17 @@
+abbreviation: VE
+available: true
+classes: 32
+colour: 62
+id: 47
+label: VENG
+longName: vehicle engines
+name: Vehicle Engines
+penaltyLength: 249
+penaltyLowerBound: 6
+price: 6209
+sprite:
+  filename: cargoes/vehicle-engines.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

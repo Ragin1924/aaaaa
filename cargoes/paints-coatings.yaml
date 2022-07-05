@@ -1,0 +1,17 @@
+abbreviation: PC
+available: true
+classes: 32
+colour: 168
+id: 29
+label: COAT
+longName: paints & coatings
+name: Paints & Coatings
+penaltyLength: 235
+penaltyLowerBound: 20
+price: 5551
+sprite:
+  filename: cargoes/paints-coatings.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 16

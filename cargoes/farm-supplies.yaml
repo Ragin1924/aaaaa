@@ -1,0 +1,17 @@
+abbreviation: FS
+available: true
+classes: 32
+colour: 37
+id: 19
+label: FMSP
+longName: farm supplies
+name: Farm Supplies
+penaltyLength: 32
+penaltyLowerBound: 2
+price: 6990
+sprite:
+  filename: cargoes/farm-supplies.png
+  left: 0
+  top: 0
+unitName: Crates
+weight: 10

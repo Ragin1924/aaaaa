@@ -1,0 +1,17 @@
+abbreviation: AC
+available: true
+classes: 320
+colour: 183
+id: 1
+label: ACID
+longName: acid
+name: Acid
+penaltyLength: 48
+penaltyLowerBound: 24
+price: 4482
+sprite:
+  filename: cargoes/acid.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 24

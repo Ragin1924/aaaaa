@@ -1,0 +1,17 @@
+abbreviation: SY
+available: true
+classes: 320
+colour: 177
+id: 25
+label: LYE_
+longName: sodium hydroxide
+name: Sodium Hydroxide
+penaltyLength: 225
+penaltyLowerBound: 30
+price: 4441
+sprite:
+  filename: cargoes/sodium-hydroxide.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 24

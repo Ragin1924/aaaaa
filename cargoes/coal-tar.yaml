@@ -1,0 +1,17 @@
+abbreviation: CT
+available: true
+classes: 320
+colour: 5
+id: 15
+label: CTAR
+longName: coal tar
+name: Coal Tar
+penaltyLength: 191
+penaltyLowerBound: 64
+price: 4029
+sprite:
+  filename: cargoes/coal-tar.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

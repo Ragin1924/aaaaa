@@ -1,0 +1,17 @@
+abbreviation: PA
+available: true
+classes: 16
+colour: 83
+id: 50
+label: POTA
+longName: potash
+name: Potash
+penaltyLength: 225
+penaltyLowerBound: 30
+price: 4194
+sprite:
+  filename: cargoes/potash.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

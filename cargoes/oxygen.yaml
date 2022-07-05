@@ -1,0 +1,17 @@
+abbreviation: O2
+available: true
+classes: 64
+colour: 194
+id: 28
+label: O2__
+longName: oxygen
+name: Oxygen
+penaltyLength: 44
+penaltyLowerBound: 22
+price: 5592
+sprite:
+  filename: cargoes/oxygen.png
+  left: 0
+  top: 0
+unitName: Litres
+weight: 16

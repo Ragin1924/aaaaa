@@ -1,0 +1,17 @@
+abbreviation: SW
+available: true
+classes: 32
+colour: 111
+id: 43
+label: STWR
+longName: steel wire rod
+name: Steel Wire Rod
+penaltyLength: 42
+penaltyLowerBound: 30
+price: 5674
+sprite:
+  filename: cargoes/steel-wire-rod.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

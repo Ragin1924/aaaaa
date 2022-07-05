@@ -1,0 +1,17 @@
+abbreviation: QL
+available: true
+classes: 528
+colour: 119
+id: 33
+label: QLME
+longName: quicklime
+name: Quicklime
+penaltyLength: 247
+penaltyLowerBound: 8
+price: 4605
+sprite:
+  filename: cargoes/quicklime.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

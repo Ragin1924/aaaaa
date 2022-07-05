@@ -1,0 +1,17 @@
+abbreviation: CB
+available: true
+classes: 2576
+colour: 157
+id: 7
+label: CBLK
+longName: carbon black
+name: Carbon Black
+penaltyLength: 215
+penaltyLowerBound: 40
+price: 6291
+sprite:
+  filename: cargoes/carbon-black.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

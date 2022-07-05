@@ -1,0 +1,17 @@
+abbreviation: CS
+available: true
+classes: 32
+colour: 51
+id: 8
+label: STCB
+longName: carbon steel
+name: Carbon Steel
+penaltyLength: 241
+penaltyLowerBound: 14
+price: 5222
+sprite:
+  filename: cargoes/carbon-steel.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

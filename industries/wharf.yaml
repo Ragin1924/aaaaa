@@ -1,0 +1,657 @@
+available: true
+callbacks: |
+  const type{
+      level_requirements dict
+      random_prod_factor dict
+      supply_requirement integer
+
+      accept_cargo_types cargodict
+      prod_cargo_types cargodict
+  }
+
+  local type{
+      total_delivered integer
+      current_production_level integer
+      random_range integer
+
+      i iterator
+      level iterator
+      cargo iterator
+  }
+
+  industry:storage type{
+      supplied_cycles_remaining_cargo cargodict
+
+      base_prod_factor integer
+
+      num_supplies_delivered 27 list
+  }
+
+  level_requirements 0 [] 100 =
+  level_requirements 16 [] 150 =
+  level_requirements 16 5 * [] 300 =
+
+  random_prod_factor 0 [] 8 =
+  random_prod_factor 1 [] 12 =
+  random_prod_factor 5 [] 16 =
+  random_prod_factor 7 [] 20 =
+  random_prod_factor 10 [] 24 =
+  random_prod_factor 11 [] 28 =
+  random_prod_factor 12 [] 32 =
+  random_prod_factor 13 [] 36 =
+
+  supply_requirement 8 =
+
+  accept_cargo_types ctt:STSE [] 1 =
+  accept_cargo_types ctt:PIPE [] 1 =
+  accept_cargo_types ctt:CMNT [] 1 =
+  accept_cargo_types ctt:LYE_ [] 1 =
+  prod_cargo_types ctt:ENSP [] 12 =
+  prod_cargo_types ctt:ZINC [] 16 =
+  prod_cargo_types ctt:POWR [] 14 =
+  prod_cargo_types ctt:COAT [] 10 =
+  prod_cargo_types ctt:SOAP [] 10 =
+
+
+  /*
+   The following is a replication of what FIRS is doing for a primary industry.
+   See: https://github.com/andythenorth/firs/blob/4.4.0/src/templates/produce_primary.pynml
+  */
+
+  /* Get the total amount of supplies delivered in last 27 production cycles. */
+  func:produce_total_supplies_delivered def{
+      i 0 26 [..] loop{
+          total_delivered total_delivered num_supplies_delivered i [] + =
+      }
+  }
+
+  /* Calculate current production level, based on delivered supplies. */
+  func:produce_calculate_current_production_level def{
+      func:produce_total_supplies_delivered ()
+
+      level level_requirements loop{
+          current_production_level
+              level_requirements level []
+              current_production_level
+              total_delivered supply_requirement / level >=
+          =
+      }
+  }
+
+  /* Set the number of supplied cycles remaining per cargo - used to display 'supplied' (or not) in the industry window. */
+  func:update_supplied_cycles_remaining_per_cargo def{
+      cargo accept_cargo_types loop{
+          supplied_cycles_remaining_cargo cargo [] supplied_cycles_remaining_cargo cargo [] 1 - 0 max =
+      }
+  }
+
+  /* Shift the array of supplies_delivered values one place to the left, and zero the last entry. */
+  func:produce_256_ticks_shift_supplies_delivered def{
+      i 0 25 [..] loop{
+          num_supplies_delivered i [] num_supplies_delivered i 1 + [] =
+      }
+      num_supplies_delivered 26 [] 0 =
+  }
+
+  /* On arrival of supplies, push the amount to perm storage, then clear from stockpile. */
+  cb:production_cargo_arrival def{
+      cargo accept_cargo_types loop{
+          num_supplies_delivered 26 [] num_supplies_delivered 26 [] industry:cargo_incoming_waiting cargo [] + =
+
+          supplied_cycles_remaining_cargo cargo []
+              28
+              supplied_cycles_remaining_cargo cargo []
+          industry:cargo_incoming_waiting cargo [] 0 >
+          =
+      }
+
+      /*
+       Update the production level immediately, so that production level text immediately updates in industry window.
+       Production won't actually increase until next 256 tick production cycle.
+      */
+      func:produce_calculate_current_production_level ()
+
+      cargo accept_cargo_types loop{
+          result:inputs cargo [] industry:cargo_incoming_waiting cargo [] =
+      }
+  }
+
+  /* On 256 ticks, if supplied, produce extra output cargo at appropriate multiplier. */
+  cb:production_every_256_ticks def{
+      func:produce_calculate_current_production_level ()
+      func:update_supplied_cycles_remaining_per_cargo ()
+      func:produce_256_ticks_shift_supplies_delivered ()
+
+      cargo prod_cargo_types loop{
+          result:outputs cargo [] prod_cargo_types cargo [] industry:production_level base_prod_factor current_production_level * * * 16 16 100 * * / =
+      }
+  }
+
+  cb:production_initial def{
+      /* Highest value in random_prod_factor is 13. */
+      random_range industry:random_bits 14 % =
+
+      level random_prod_factor loop{
+          base_prod_factor
+              random_prod_factor level []
+              base_prod_factor
+              random_range level >=
+          =
+      }
+
+      /* Initial production level. Can be changed with cheats. */
+      result:value 16 =
+  }
+
+  cb:production_change_monthly def{
+      result:value 0 =
+  }
+
+  cb:production_change_random def{
+      result:value 0 =
+  }
+cargoAcceptance:
+- CMNT
+- PIPE
+- LYE_
+- STSE
+cargoProduction:
+- SOAP
+- POWR
+- ENSP
+- COAT
+- ZINC
+colour: 37
+fundCostMultiplier: 152
+id: 29
+layout:
+- - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+  - - -1
+    - 0
+    - 5
+    - 15
+    - -1
+  - - 9
+    - 15
+    - -1
+    - 15
+    - -1
+  - - -1
+    - 0
+    - 5
+    - 0
+    - -1
+  - - 15
+    - 16
+    - 11
+    - 2
+    - -1
+  - - 27
+    - 27
+    - 19
+    - 19
+    - -1
+- - - -1
+    - 14
+    - 1
+    - 14
+    - 2
+    - 19
+  - - -1
+    - -1
+    - 10
+    - -1
+    - 11
+    - 19
+  - - -1
+    - 1
+    - 14
+    - 1
+    - 16
+    - 27
+  - - -1
+    - 3
+    - -1
+    - 3
+    - 14
+    - 27
+  - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+    - -1
+- - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+    - -1
+  - - 27
+    - 13
+    - -1
+    - 7
+    - -1
+    - -1
+  - - 27
+    - 16
+    - 1
+    - 13
+    - 1
+    - -1
+  - - 19
+    - 2
+    - 4
+    - -1
+    - 4
+    - -1
+  - - 19
+    - 11
+    - 13
+    - 1
+    - 13
+    - -1
+- - - 19
+    - 19
+    - 27
+    - 27
+    - -1
+  - - 2
+    - 11
+    - 16
+    - 12
+    - -1
+  - - 12
+    - -1
+    - 0
+    - 6
+    - -1
+  - - 0
+    - 8
+    - 12
+    - -1
+    - -1
+  - - 12
+    - -1
+    - 0
+    - 6
+    - -1
+  - - -1
+    - -1
+    - -1
+    - -1
+    - -1
+name: Wharf
+placement: on-water
+probabilityInGame: 2
+probabilityMapGen: 6
+prospectChance: 75
+tiles:
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/1.png
+      left: -31
+      top: -8
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/2.png
+      left: -31
+      top: -8
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/3.png
+      left: -35
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/4.png
+      left: -35
+      top: -15
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/5.png
+      left: -40
+      top: -12
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/6.png
+      left: -13
+      top: -19
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/7.png
+      left: -27
+      top: -12
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/8.png
+      left: -15
+      top: -11
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/9.png
+      left: -25
+      top: -20
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/10.png
+      left: -29
+      top: -5
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 4061
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/11.png
+      left: -32
+      top: -21
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/12.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/13.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/14.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/15.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/16.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/17.png
+      left: -31
+      top: -8
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/18.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/19.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/20.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/21.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/22.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/23.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/24.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/25.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/26.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/27.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/28.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/29.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/30.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/31.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/32.png
+      left: -31
+      top: -61
+- sprites:
+  - alwaysDraw: true
+    drawType: recolour
+    sprite:
+      id: 3981
+  - alwaysDraw: false
+    drawType: recolour
+    sprite:
+      filename: industries/wharf/33.png
+      left: -31
+      top: -61
+type: primary

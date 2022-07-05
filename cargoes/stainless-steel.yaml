@@ -1,0 +1,17 @@
+abbreviation: SS
+available: true
+classes: 32
+colour: 125
+id: 40
+label: STST
+longName: stainless steel
+name: Stainless Steel
+penaltyLength: 239
+penaltyLowerBound: 16
+price: 5345
+sprite:
+  filename: cargoes/stainless-steel.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16

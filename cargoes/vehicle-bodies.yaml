@@ -1,0 +1,17 @@
+abbreviation: VB
+available: true
+classes: 1056
+colour: 126
+id: 46
+label: VBOD
+longName: vehicle bodies
+name: Vehicle Bodies
+penaltyLength: 250
+penaltyLowerBound: 5
+price: 6044
+sprite:
+  filename: cargoes/vehicle-bodies.png
+  left: 0
+  top: 0
+unitName: Tonnes
+weight: 16
