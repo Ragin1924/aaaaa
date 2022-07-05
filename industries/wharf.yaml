@@ -156,9 +156,9 @@ cargoAcceptance:
 - LYE_
 - STSE
 cargoProduction:
+- ENSP
 - SOAP
 - POWR
-- ENSP
 - COAT
 - ZINC
 colour: 37
